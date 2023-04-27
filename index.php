@@ -21,12 +21,19 @@
 include __DIR__ . "/Helpers.php";
 include __DIR__ . "/MonProjet.php";
 
-$paramFiltre = [
-    "filtrerCompas" => (isset($_REQUEST["filtrerCompas"]) && in_array($_REQUEST["filtrerCompas"], [0, 1])) ?: 1,
-    "filtrerFinis" => (isset($_REQUEST["filtrerFinis"]) && in_array($_REQUEST["filtrerFinis"], [0, 1])) ?: 1,
-];
+// Paramètres par défaut des filtres
+$filtrerTypeCamps = ["FARFADET", "8-11", "11-14", "14-17"];
+$filtrerCampsFinis = true;
 
-$objMP = new MonProjet($paramFiltre);
+// Récupérer les valeurs passées en paramètres
+if (isset($_REQUEST["campsFinis"])) {
+    $filtrerCampsFinis = (bool)$_REQUEST["campsFinis"];
+}
+if (isset($_REQUEST["typeCamps"])) {
+    $filtrerTypeCamps = $_REQUEST["typeCamps"];
+}
+
+$objMP = new MonProjet($filtrerTypeCamps, $filtrerCampsFinis);
 // TODO : interface d'authentification
 $identite = $objMP->authentifier("xxx", "xxx");
 $listeDesCamps = $objMP->getListeCamps();
@@ -72,12 +79,27 @@ $listeDesCamps = $objMP->getListeCamps();
                 <img src="https://monprojet.sgdf.fr/favicon.ico" width="30" alt="Analytics - Mon Projet">
                 Analytics - Mon Projet
             </a>
-            <a href="?filtrerCompas=<?= (($paramFiltre["filtrerCompas"] + 1) % 2) ?>&filtrerFinis=<?= $paramFiltre["filtrerFinis"] ?>" type="button" class="btn btn-outline-primary">
-                <?= $paramFiltre["filtrerCompas"] ? "Afficher" : "Masquer" ?> les camps compagnons
-            </a>
-            <a href="?filtrerCompas=<?= $paramFiltre["filtrerCompas"] ?>&filtrerFinis=<?= (($paramFiltre["filtrerFinis"] + 1) % 2) ?>" type="button" class="btn btn-outline-primary">
-                <?= $paramFiltre["filtrerFinis"] ? "Afficher" : "Masquer" ?> les camps finis
-            </a>
+            <div class="dropdown">
+                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    Filtres d'affichage
+                </button>
+                <form class="dropdown-menu p-4">
+                    <?php foreach (MonProjet::typeCamps as $key => $value): ?>
+                        <div class="form-check dropdown-item">
+                            <input type="checkbox" class="form-check-input" id="typeCamps" name="typeCamps[]" value="<?= $value[MonProjet::typeCampsCodeApi] ?>" <?= (in_array($value[MonProjet::typeCampsCodeApi], $filtrerTypeCamps) ? "checked=\"checked\"" : "") ?>>
+                            <label class="form-check-label" for="typeCamps"><?= $key ?></label>
+                        </div>
+                    <?php endforeach; ?>
+                    <hr class="dropdown-divider">
+                    <div class="form-check dropdown-item">
+                        <!-- Pour récupérer la valeur de la checkbox si décochée -->
+                        <input type="hidden" name="campsFinis" value="0">
+                        <input type="checkbox" class="form-check-input" id="campsFinis" name="campsFinis" value="1" <?= ($filtrerCampsFinis ? "checked=\"checked\"" : "") ?>>
+                        <label class="form-check-label" for="campsFinis">Exclure les camps terminés</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Valider</button>
+                </form>
+            </div>
             <span class="navbar-text"><?= $identite ?></span>
         </div>
     </nav>

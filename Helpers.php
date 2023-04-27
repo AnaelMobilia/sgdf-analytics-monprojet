@@ -98,7 +98,7 @@ class Helpers
      */
     public static function getColor(string $typeCamps): string
     {
-        return MonProjet::couleurTypeCamps[array_search($typeCamps, MonProjet::typeCamps)];
+        return MonProjet::typeCamps[$typeCamps][MonProjet::typeCampsCouleur];
     }
 
     /**

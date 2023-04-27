@@ -23,10 +23,48 @@ class MonProjet
     /**
      * Constantes issues de mon projet
      */
+    const typeCampsCouleur = "couleur";
+    const typeCampsCodeApi = "code";
     // Types de camps
-    const typeCamps = ["Farfadets", "Louveteaux-jeannettes", "Scouts-guides", "Pionniers-Caravelles", "Compagnons T1 et T3", "Compagnons T2", "Audace", "Camp accompagné", "Camp autre"];
-    // Couleurs associées
-    const couleurTypeCamps = ["#65bc99", "#ff8300", "#0077b3", "#d03f15", "#007254", "#007254", "#6e74aa", "#003a5d", "#003a5d"];
+    const typeCamps = [
+        "Farfadets" => [
+            self::typeCampsCouleur => "#65bc99",
+            self::typeCampsCodeApi => "FARFADET",
+        ],
+        "Louveteaux-jeannettes" => [
+            self::typeCampsCouleur => "#ff8300",
+            self::typeCampsCodeApi => "8-11",
+        ],
+        "Scouts-guides" => [
+            self::typeCampsCouleur => "#0077b3",
+            self::typeCampsCodeApi => "11-14",
+        ],
+        "Pionniers-Caravelles" => [
+            self::typeCampsCouleur => "#d03f15",
+            self::typeCampsCodeApi => "14-17",
+        ],
+        "Compagnons T1 et T3" => [
+            self::typeCampsCouleur => "#007254",
+            self::typeCampsCodeApi => "COMPAGNONS-T1",
+        ],
+        "Compagnons T2" => [
+            self::typeCampsCouleur => "#007254",
+            self::typeCampsCodeApi => "COMPAGNONS-T2",
+        ],
+        "Audace" => [
+            self::typeCampsCouleur => "#6e74aa",
+            self::typeCampsCodeApi => "AUDACE",
+        ],
+        "Camp accompagné" => [
+            self::typeCampsCouleur => "#003a5d",
+            self::typeCampsCodeApi => "CAMP-ACCOMPAGNE",
+        ],
+        "Camp autre" => [
+            self::typeCampsCouleur => "#003a5d",
+            self::typeCampsCodeApi => "AUTRE",
+        ],
+    ];
+
     // Type de soutien : AP
     const typeSoutienAp = "AP";
     // Type de rôles : Chef
@@ -46,7 +84,7 @@ class MonProjet
     private string $codeStructure;
 
     // Paramètres de filtrage
-    private bool $filtrerCampsCompas;
+    private array $filtrerTypeCamps;
     private bool $filtrerCampsFinis;
 
     // URL de base de l'API
@@ -56,12 +94,13 @@ class MonProjet
 
     /**
      * Constructeur avec les paramètres d'affichage
-     * @param array $tabParams
+     * @param array $typeCamps Type de camps à afficher (clefs de self::typeCamps)
+     * @param bool $campsFinis Afficher les camps terminés ?
      */
-    public function __construct(array $tabParams)
+    public function __construct(array $typeCamps, bool $campsFinis)
     {
-        $this->filtrerCampsCompas = $tabParams["filtrerCompas"];
-        $this->filtrerCampsFinis = $tabParams["filtrerFinis"];
+        $this->filtrerTypeCamps = $typeCamps;
+        $this->filtrerCampsFinis = $campsFinis;
     }
 
     /**
@@ -104,7 +143,21 @@ class MonProjet
     {
         $returnValue = [];
 
-        $ch = curl_init(self::base_url . "camps/multi-criteres?dateDebut=2022-09-01T00:00:00.000Z&dateFin=2023-09-15T00:00:00.000Z&statutsCamp=1&chercherDossiersParticipants=0&codeStructure=" . $this->codeStructure . "&chercherStructuresDependates=1&idsTamRefExercices=18&selectedPage=" . $selectedPage);
+        // Date de début du séjour
+        $dateDeb = "2022-09-01";
+        if ($this->filtrerCampsFinis) {
+            // Ne pas prendre les camps terminés
+            $dateDeb = date("Y-m-d");
+        }
+        $dateDeb .= "T00:00:00.000Z";
+
+        // Type de camps
+        $typeCamps = implode(",", $this->filtrerTypeCamps);
+
+        // Construction de l'URL
+        $url = self::base_url . "camps/multi-criteres?dateDebut=" . $dateDeb . "&dateFin=2023-09-15T00:00:00.000Z&statutsCamp=1&chercherDossiersParticipants=0&codeStructure=" . $this->codeStructure . "&chercherStructuresDependates=1&codesTypesCamp=" . $typeCamps . "&idsTamRefExercices=18&selectedPage=" . $selectedPage;
+
+        $ch = curl_init($url);
         curl_setopt_array($ch, array(
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER => array(
@@ -119,18 +172,7 @@ class MonProjet
         // Récupération de la liste des camps
         if (isset($response->camps)) {
             foreach ($response->camps as $unCamp) {
-                // Application des paramètres de filtrage
-                $prendreLeCamp = true;
-                if ($this->filtrerCampsFinis && $unCamp->dateFin < date(DateTimeInterface::ISO8601, time())) {
-                    $prendreLeCamp = false;
-                }
-                if ($this->filtrerCampsCompas && in_array($unCamp->typeCamp->libelle, [self::typeCamps["4"], self::typeCamps["5"]])) {
-                    $prendreLeCamp = false;
-                }
-                // Si on veut toujours le camp...
-                if ($prendreLeCamp) {
-                    $returnValue[$unCamp->id] = $unCamp;
-                }
+                $returnValue[$unCamp->id] = $unCamp;
             }
             // Si on a plus de camps
             if ($response->campsTotalCount > ($selectedPage * self::nbCamps)) {
