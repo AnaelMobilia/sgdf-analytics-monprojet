@@ -36,7 +36,11 @@ if (isset($_REQUEST["typeCamps"])) {
 $objMP = new MonProjet($filtrerTypeCamps, $filtrerCampsFinis);
 // TODO : interface d'authentification
 $identite = $objMP->authentifier("xxx", "xxx");
-$listeDesCamps = $objMP->getListeCamps();
+$listeDesCamps = [];
+if ($identite !== "") {
+    // Charger la liste des camps si on est conneccté
+    $listeDesCamps = $objMP->getListeCamps();
+}
 ?>
 <!doctype html>
 <html lang="en" class="h-100">

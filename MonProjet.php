@@ -79,7 +79,7 @@ class MonProjet
     // Token de session
     private string $token;
     // Identité de la personne
-    private string $identite;
+    private string $identite = "";
     // Structure de la personne
     private string $codeStructure;
 
