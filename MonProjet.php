@@ -79,7 +79,7 @@ class MonProjet
     // Token de session
     private string $token;
     // Identité de la personne
-    private string $identite = "";
+    private string $identite;
     // Structure de la personne
     private string $codeStructure;
 
@@ -101,6 +101,11 @@ class MonProjet
     {
         $this->filtrerTypeCamps = $typeCamps;
         $this->filtrerCampsFinis = $campsFinis;
+
+        // Charger les valeurs enregistrées dans la session
+        $this->token = $_SESSION["token"] ?? "";
+        $this->identite = $_SESSION["identite"] ?? "";
+        $this->codeStructure = $_SESSION["codeStructure"] ?? "";
     }
 
     /**
@@ -129,6 +134,11 @@ class MonProjet
             $this->token = $response->token;
             $this->identite = $response->userData->fullName;
             $this->codeStructure = $response->userData->selectedFunctionality->codeStructure;
+
+            // Enregistrer les valeurs en session
+            $_SESSION["token"] = $this->token;
+            $_SESSION["identite"] = $this->identite;
+            $_SESSION["codeStructure"] = $this->codeStructure;
         }
 
         return $this->identite;
@@ -262,5 +272,14 @@ class MonProjet
         $returnValue .= $unChef->adherent->telephonePortable . "<br />";
         $returnValue .= $unChef->adherent->email . "<br />";
         return $returnValue;
+    }
+
+    /**
+     * Récupérer l'identité de la personne
+     * @return string
+     */
+    public function getIdentite(): string
+    {
+        return $this->identite;
     }
 }

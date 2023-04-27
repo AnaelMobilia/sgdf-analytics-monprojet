@@ -33,11 +33,17 @@ if (isset($_REQUEST["typeCamps"])) {
     $filtrerTypeCamps = $_REQUEST["typeCamps"];
 }
 
+// Gestion de la session (stockage du token d'authentification)
+session_start();
 $objMP = new MonProjet($filtrerTypeCamps, $filtrerCampsFinis);
-// TODO : interface d'authentification
-$identite = $objMP->authentifier("xxx", "xxx");
+// Authentification si demandée
+if (isset($_POST["connexion"])) {
+    // Tentative de connexion
+    $objMP->authentifier($_POST["login"], $_POST["password"]);
+}
+
 $listeDesCamps = [];
-if ($identite !== "") {
+if ($objMP->getIdentite() !== "") {
     // Charger la liste des camps si on est conneccté
     $listeDesCamps = $objMP->getListeCamps();
 }
@@ -104,13 +110,43 @@ if ($identite !== "") {
                     <button type="submit" class="btn btn-primary">Valider</button>
                 </form>
             </div>
-            <span class="navbar-text"><?= $identite ?></span>
+            <span class="navbar-text"><?= $objMP->getIdentite() ?></span>
         </div>
     </nav>
 </header>
 <!-- Begin page content -->
 <main role="main" class="flex-shrink-0">
     <div class="container">
+        <!-- Mire de connexion -->
+        <div class="modal" id="modalConnexion" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Se connecter</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post">
+                        <div class="modal-body">
+                            <div class="mb-3 row">
+                                <label for="login" class="col-sm-4 col-form-label">Numéro d'adhérent</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="login" name="login">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="password" class="col-sm-4 col-form-label">Mot de passe</label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control" id="password" name="password">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" name="connexion" class="btn btn-primary">Se connecter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -378,6 +414,12 @@ if ($identite !== "") {
         },
     });
     calendar.render();
+
+    <?php if ($objMP->getIdentite() === ""): ?>
+    // Mire de connexion
+    const myModal = new bootstrap.Modal(document.getElementById('modalConnexion'), '');
+    myModal.show();
+    <?php endif; ?>
 </script>
 </body>
 </html>
