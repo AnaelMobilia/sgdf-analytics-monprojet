@@ -116,7 +116,7 @@ if ($objMP->getIdentite() !== "") {
 </header>
 <!-- Begin page content -->
 <main role="main" class="flex-shrink-0">
-    <div class="container">
+    <div class="container-lg">
         <!-- Mire de connexion -->
         <div class="modal" id="modalConnexion" tabindex="-1">
             <div class="modal-dialog">
@@ -412,6 +412,8 @@ if ($objMP->getIdentite() !== "") {
                 container: "body"
             });
         },
+        // Désactivation de la scrollbar => prendre toute la hauteur de la page
+        contentHeight: "auto",
     });
     calendar.render();
 
