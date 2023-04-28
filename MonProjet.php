@@ -177,19 +177,27 @@ class MonProjet
         ));
         $response = curl_exec($ch);
         $response = json_decode($response);
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        // Récupération de la liste des camps
-        if (isset($response->camps)) {
-            foreach ($response->camps as $unCamp) {
-                $returnValue[$unCamp->id] = $unCamp;
+        if($http_status == "200") {
+            // Récupération de la liste des camps
+            if (isset($response->camps)) {
+                foreach ($response->camps as $unCamp) {
+                    $returnValue[$unCamp->id] = $unCamp;
+                }
+                // Si on a plus de camps
+                if ($response->campsTotalCount > ($selectedPage * self::nbCamps)) {
+                    // Appel récursif
+                    $returnValue = array_merge($returnValue, $this->getListeCamps(++$selectedPage));
+                }
             }
-            // Si on a plus de camps
-            if ($response->campsTotalCount > ($selectedPage * self::nbCamps)) {
-                // Appel récursif
-                $returnValue = array_merge($returnValue, $this->getListeCamps(++$selectedPage));
-            }
+        } else {
+            // Erreur lors de l'appel à l'API, invalidation de la session
+            session_destroy();
+            $this->identite = "";
         }
+
         return $returnValue;
     }
 
