@@ -76,6 +76,11 @@ if ($objMP->getIdentite() !== "") {
             display: inline-block;
             vertical-align: middle;
         }
+
+        /* pointeur de souris */
+        .pointer {
+            cursor: pointer;
+        }
     </style>
     <!-- Datatables -->
     <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -422,6 +427,19 @@ if ($objMP->getIdentite() !== "") {
     const myModal = new bootstrap.Modal(document.getElementById('modalConnexion'), '');
     myModal.show();
     <?php endif; ?>
+
+    // Copier dans le presse papier un élément
+    function copyToClipboard(elem) {
+        const maVal = elem.title;
+        navigator.clipboard.writeText(maVal);
+
+        // Retour utilisateur via tooltip
+        const tooltip = new bootstrap.Tooltip(elem, {
+            title: 'Copié !',
+        });
+        tooltip.show();
+        setTimeout(() => {  tooltip.hide(); }, 1000);
+    }
 </script>
 </body>
 </html>

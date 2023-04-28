@@ -272,23 +272,44 @@ class MonProjet
 
         $contact = "";
         if ($unChef->adherent->email !== "") {
-            $contact .= "<span title=\"" . $unChef->adherent->email . "\" onclick=\"navigator.clipboard.writeText('" . $unChef->adherent->email . "')\">📧</span>";
+            $contact .= $this->generateSpanInfosContactChef($unChef->adherent->email, "email");
         }
         if ($unChef->adherent->telephonePortable !== "") {
             // Gestion des téléphones multiples : "06xxxxxxxx / 07xxxxxxxx"
-            foreach (explode("/", $unChef->adherent->telephonePortable) as $unNumero)
-            {
-                $unNumero = trim($unNumero);
+            foreach (explode("/", $unChef->adherent->telephonePortable) as $unNumero) {
                 if ($contact !== "") {
                     $contact .= " - ";
                 }
-                $contact .= "<span title=\"" . $unNumero . "\" onclick=\"navigator.clipboard.writeText('" . $unNumero . "')\">📞</span>";
-
+                $contact .= $this->generateSpanInfosContactChef($unNumero, "tel");
             }
         }
-
         $returnValue .= $contact . "<br />";
+
         return $returnValue;
+    }
+
+    /**
+     * Génère le code HTML pour les infos de contact d'un chef
+     * @param string $value valeur
+     * @param string $type type d'information ["email", "tel"]
+     * @return string
+     */
+    private function generateSpanInfosContactChef(string $value, string $type): string
+    {
+        $value = trim($value);
+
+        switch ($type) {
+            case "email":
+                $emoji = "📧";
+                break;
+            case "tel":
+                $emoji = "📞";
+                break;
+            default:
+                $emoji = "❔";
+                break;
+        }
+        return "<span class=\"pointer\" title=\"" . $value . "\" onclick=\"copyToClipboard(this);\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Copié\" data-trigger=\"manual\">" . $emoji . "</span>";
     }
 
     /**
