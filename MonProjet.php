@@ -269,8 +269,25 @@ class MonProjet
     private function getInfosContactChef(object $unChef): string
     {
         $returnValue = Helpers::formatPrenomNom($unChef->adherent->prenom, $unChef->adherent->nom) . "<br />";
-        $returnValue .= $unChef->adherent->telephonePortable . "<br />";
-        $returnValue .= $unChef->adherent->email . "<br />";
+
+        $contact = "";
+        if ($unChef->adherent->email !== "") {
+            $contact .= "<span title=\"" . $unChef->adherent->email . "\" onclick=\"navigator.clipboard.writeText('" . $unChef->adherent->email . "')\">📧</span>";
+        }
+        if ($unChef->adherent->telephonePortable !== "") {
+            // Gestion des téléphones multiples : "06xxxxxxxx / 07xxxxxxxx"
+            foreach (explode("/", $unChef->adherent->telephonePortable) as $unNumero)
+            {
+                $unNumero = trim($unNumero);
+                if ($contact !== "") {
+                    $contact .= " - ";
+                }
+                $contact .= "<span title=\"" . $unNumero . "\" onclick=\"navigator.clipboard.writeText('" . $unNumero . "')\">📞</span>";
+
+            }
+        }
+
+        $returnValue .= $contact . "<br />";
         return $returnValue;
     }
 
