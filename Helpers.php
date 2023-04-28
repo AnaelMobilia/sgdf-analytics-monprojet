@@ -103,14 +103,13 @@ class Helpers
 
     /**
      * Formatter un Prénom Nom-Composé
-     * @param string $nom
-     * @param string $prenom
+     * @param string $texte Prénom Nom-Composé
      * @return string
      */
-    public static function formatPrenomNom(string $prenom, string $nom): string
+    public static function formatPrenomNom(string $texte): string
     {
         // prenom nom-composé
-        $returnValue = mb_strtolower($prenom . " " . $nom);
+        $returnValue = mb_strtolower($texte);
         // Prenom Nom-composé
         $returnValue = ucwords($returnValue);
         // Prenom Nom-Compose

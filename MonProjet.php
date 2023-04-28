@@ -132,7 +132,7 @@ class MonProjet
         // Récupération du token de session
         if (isset($response->token)) {
             $this->token = $response->token;
-            $this->identite = $response->userData->fullName;
+            $this->identite = Helpers::formatPrenomNom($response->userData->fullName);
             $this->codeStructure = $response->userData->selectedFunctionality->codeStructure;
 
             // Enregistrer les valeurs en session
@@ -180,7 +180,7 @@ class MonProjet
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if($http_status == "200") {
+        if ($http_status == "200") {
             // Récupération de la liste des camps
             if (isset($response->camps)) {
                 foreach ($response->camps as $unCamp) {
@@ -211,7 +211,7 @@ class MonProjet
         $returnValue = "";
         foreach ($listeSoutien as $unSoutien) {
             if ($unSoutien->typeSoutien == self::typeSoutienAp) {
-                $returnValue .= Helpers::formatPrenomNom($unSoutien->adherent->prenom, $unSoutien->adherent->nom) . "<br/>";
+                $returnValue .= Helpers::formatPrenomNom($unSoutien->adherent->prenom . " " . $unSoutien->adherent->nom) . "<br/>";
             }
         }
         return $returnValue;
@@ -276,7 +276,7 @@ class MonProjet
      */
     private function getInfosContactChef(object $unChef): string
     {
-        $returnValue = Helpers::formatPrenomNom($unChef->adherent->prenom, $unChef->adherent->nom) . "<br />";
+        $returnValue = Helpers::formatPrenomNom($unChef->adherent->prenom . " " . $unChef->adherent->nom) . "<br />";
 
         $contact = "";
         if ($unChef->adherent->email !== "") {
