@@ -329,7 +329,8 @@ if ($objMP->getIdentite() !== "") {
 <!-- Datatables -->
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <!-- Fullcalendar -->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.6/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.6/locales/fr.js"></script>
 <script>
     // Lancer Datatables
     $(document).ready(function () {
