@@ -297,6 +297,32 @@ class MonProjet
     }
 
     /**
+     * Retourner les e-learning suivis par une personne
+     * @param object $unChef
+     * @return array
+     */
+    public function getELearning(object $unChef): array
+    {
+        $returnValue = [];
+
+        // Liste des fichiers
+        $tabFiles = scandir(__DIR__ . "/data/");
+        foreach ($tabFiles as $unFichier) {
+            if ($unFichier == "." || $unFichier == ".." || $unFichier == ".htaccess") {
+                continue;
+            }
+            $tabStagiaires = json_decode(file_get_contents(__DIR__ . "/data/" . $unFichier), true);
+
+            // Le chef est-il présent dans cette formation ?
+            if (in_array($unChef->adherent->numero, array_keys($tabStagiaires))) {
+                $returnValue[] = $unFichier . " - " . $tabStagiaires[$unChef->adherent->numero];
+            }
+        }
+
+        return $returnValue;
+    }
+
+    /**
      * Génère le code HTML pour les infos de contact d'un chef
      * @param string $value valeur
      * @param string $type type d'information ["email", "tel"]

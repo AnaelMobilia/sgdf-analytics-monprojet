@@ -1,0 +1,3 @@
+- Installer les paquets requis via composer  : `composer install --ignore-platform-req ext-gd`
+- Récupérer de vendor phpoffice et psr
+- Supprimer vendor et composer.lock

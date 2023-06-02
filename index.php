@@ -166,7 +166,10 @@ if ($objMP->getIdentite() !== "") {
                     <button class="nav-link" id="stages-pratiques-tab" data-bs-toggle="tab" data-bs-target="#stages-pratiques-tab-pane" type="button" role="tab" aria-controls="stages-pratiques-tab-pane" aria-selected="false">Stages pratiques</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="stages-pratiques-tab" data-bs-toggle="tab" data-bs-target="#tam-tab-pane" type="button" role="tab" aria-controls="tam-tab-pane" aria-selected="false">Télédéclaration</button>
+                    <button class="nav-link" id="tam-tab" data-bs-toggle="tab" data-bs-target="#tam-tab-pane" type="button" role="tab" aria-controls="tam-tab-pane" aria-selected="false">Télédéclaration</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="e-learning-tab" data-bs-toggle="tab" data-bs-target="#e-learning-tab-pane" type="button" role="tab" aria-controls="e-learning-tab-pane" aria-selected="false">e-learning</button>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -312,6 +315,51 @@ if ($objMP->getIdentite() !== "") {
                         </tbody>
                     </table>
                 </div>
+                <div class="tab-pane fade" id="e-learning-tab-pane" role="tabpanel" aria-labelledby="e-learning-tab" tabindex="0">
+                    <!-- Suivi des e-learning -->
+                    <h1>Suivi des e-learning</h1>
+                    <form method="POST" action="process.php" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="upload" class="form-label" title="Pilotage -> Extractions -> Individus -> Formation : e-learning... -> Exporter">❔</label>
+                            <input name="upload" id="upload" accept="application/vnd.ms-excel" type="file" class="form-control"/>
+                        </div>
+                        <input type="submit" class="btn btn-info" value="Envoyer"/>
+                    </form>
+                    <table class="table table-striped" id="eLearning">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Structure(s)</th>
+                            <th>Dates</th>
+                            <th>Animateur</th>
+                            <th>E-learning</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($listeDesCamps as $unCamp) : ?>
+                            <?php foreach ($unCamp->campAdherentStaffs as $unAdherentStaff): ?>
+                                <tr>
+                                    <td><?= Helpers::getLienVersCamp($unCamp->id) ?></td>
+                                    <td>
+                                        <?php foreach ($unCamp->campStructures as $uneStructure): ?>
+                                            <span class="pastilles" style="background-color:<?= Helpers::getColor($unCamp->typeCamp->libelle) ?>" title="<?= $unCamp->typeCamp->libelle ?>"></span>&nbsp;<?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br/>
+                                        <?php endforeach; ?>
+                                    </td>
+                                    <td data-order="<?= $unCamp->dateDebut ?>"><?= Helpers::dateFormatDmy($unCamp->dateDebut) ?> au <?= Helpers::dateFormatDmy($unCamp->dateFin) ?></td>
+                                    <td><?=  Helpers::formatPrenomNom($unAdherentStaff->adherent->prenom . " " . $unAdherentStaff->adherent->nom) ?></td>
+                                    <td>
+                                        <ul>
+                                            <?php foreach ($objMP->getELearning($unAdherentStaff) as $unELearning): ?>
+                                                <li><?= $unELearning ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -370,6 +418,16 @@ if ($objMP->getIdentite() !== "") {
             paging: false,
             // Tri sur le statut TAM, date de déclaration puis code structure
             order: [[4, 'desc'], [5, 'asc'], [0, 'desc']],
+        });
+        $('#eLearning').DataTable({
+            // En français
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json',
+            },
+            // Pas de pagination
+            paging: false,
+            // Tri sur la structure parent et la tranche d'âge
+            order: [[1, 'asc'], [3, 'asc']],
         });
     });
 
@@ -436,7 +494,9 @@ if ($objMP->getIdentite() !== "") {
             title: 'Copié !',
         });
         tooltip.show();
-        setTimeout(() => {  tooltip.hide(); }, 1000);
+        setTimeout(() => {
+            tooltip.hide();
+        }, 1000);
     }
 </script>
 </body>
