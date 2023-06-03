@@ -193,12 +193,12 @@ if ($objMP->getIdentite() !== "") {
                                 <td><?= Helpers::getLienVersCamp($unCamp->id) ?></td>
                                 <td>
                                     <?php foreach ($unCamp->campStructures as $uneStructure): ?>
-                                        <?= ($uneStructure->structure->libelle) ? substr($uneStructure->structure->code, 0, -2) . "00<br/>" : "" ?>
+                                        <?= ($uneStructure->structure->libelle) ? substr($uneStructure->structure->code, 0, -2) . "00<br>" : "" ?>
                                     <?php endforeach; ?>
                                 </td>
                                 <td>
                                     <?php foreach ($unCamp->campStructures as $uneStructure): ?>
-                                        <?= $uneStructure->structure->code ?> - <?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br/>
+                                        <?= $uneStructure->structure->code ?> - <?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br>
                                     <?php endforeach; ?>
                                 </td>
                                 <td data-order="<?= Helpers::getCategorieForDatatables($unCamp->typeCamp->libelle) ?>"><span class="pastilles" style="background-color:<?= Helpers::getColor($unCamp->typeCamp->libelle) ?>"></span>&nbsp;<?= $unCamp->typeCamp->libelle ?></td>
@@ -235,7 +235,7 @@ if ($objMP->getIdentite() !== "") {
                                 <td><?= Helpers::getLienVersCamp($unCamp->id) ?></td>
                                 <td>
                                     <?php foreach ($unCamp->campStructures as $uneStructure): ?>
-                                        <span class="pastilles" style="background-color:<?= Helpers::getColor($unCamp->typeCamp->libelle) ?>" title="<?= $unCamp->typeCamp->libelle ?>"></span>&nbsp;<?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br/>
+                                        <span class="pastilles" style="background-color:<?= Helpers::getColor($unCamp->typeCamp->libelle) ?>" title="<?= $unCamp->typeCamp->libelle ?>"></span>&nbsp;<?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br>
                                     <?php endforeach; ?>
                                 </td>
                                 <td data-order="<?= $unCamp->dateDebut ?>"><?= Helpers::dateFormatDmy($unCamp->dateDebut) ?> au <?= Helpers::dateFormatDmy($unCamp->dateFin) ?></td>
@@ -270,7 +270,7 @@ if ($objMP->getIdentite() !== "") {
                                 <td><?= Helpers::getLienVersCamp($unCamp->id) ?></td>
                                 <td>
                                     <?php foreach ($unCamp->campStructures as $uneStructure): ?>
-                                        <span class="pastilles" style="background-color:<?= Helpers::getColor($unCamp->typeCamp->libelle) ?>" title="<?= $unCamp->typeCamp->libelle ?>"></span>&nbsp;<?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br/>
+                                        <span class="pastilles" style="background-color:<?= Helpers::getColor($unCamp->typeCamp->libelle) ?>" title="<?= $unCamp->typeCamp->libelle ?>"></span>&nbsp;<?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br>
                                     <?php endforeach; ?>
                                 </td>
                                 <td data-order="<?= $unCamp->dateDebut ?>"><?= Helpers::dateFormatDmy($unCamp->dateDebut) ?> au <?= Helpers::dateFormatDmy($unCamp->dateFin) ?></td>
@@ -303,7 +303,7 @@ if ($objMP->getIdentite() !== "") {
                                 <td><?= Helpers::getLienVersCamp($unCamp->id) ?></td>
                                 <td>
                                     <?php foreach ($unCamp->campStructures as $uneStructure): ?>
-                                        <span class="pastilles" style="background-color:<?= Helpers::getColor($unCamp->typeCamp->libelle) ?>" title="<?= $unCamp->typeCamp->libelle ?>"></span>&nbsp;<?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br/>
+                                        <span class="pastilles" style="background-color:<?= Helpers::getColor($unCamp->typeCamp->libelle) ?>" title="<?= $unCamp->typeCamp->libelle ?>"></span>&nbsp;<?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br>
                                     <?php endforeach; ?>
                                 </td>
                                 <td data-order="<?= $unCamp->dateDebut ?>"><?= Helpers::dateFormatDmy($unCamp->dateDebut) ?> au <?= Helpers::dateFormatDmy($unCamp->dateFin) ?></td>
@@ -342,7 +342,7 @@ if ($objMP->getIdentite() !== "") {
                                     <td><?= Helpers::getLienVersCamp($unCamp->id) ?></td>
                                     <td>
                                         <?php foreach ($unCamp->campStructures as $uneStructure): ?>
-                                            <span class="pastilles" style="background-color:<?= Helpers::getColor($unCamp->typeCamp->libelle) ?>" title="<?= $unCamp->typeCamp->libelle ?>"></span>&nbsp;<?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br/>
+                                            <span class="pastilles" style="background-color:<?= Helpers::getColor($unCamp->typeCamp->libelle) ?>" title="<?= $unCamp->typeCamp->libelle ?>"></span>&nbsp;<?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br>
                                         <?php endforeach; ?>
                                     </td>
                                     <td data-order="<?= $unCamp->dateDebut ?>"><?= Helpers::dateFormatDmy($unCamp->dateDebut) ?> au <?= Helpers::dateFormatDmy($unCamp->dateFin) ?></td>

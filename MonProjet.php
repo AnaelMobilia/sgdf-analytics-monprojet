@@ -211,7 +211,7 @@ class MonProjet
         $returnValue = "";
         foreach ($listeSoutien as $unSoutien) {
             if ($unSoutien->typeSoutien == self::typeSoutienAp) {
-                $returnValue .= Helpers::formatPrenomNom($unSoutien->adherent->prenom . " " . $unSoutien->adherent->nom) . "<br/>";
+                $returnValue .= Helpers::formatPrenomNom($unSoutien->adherent->prenom . " " . $unSoutien->adherent->nom) . "<br>";
             }
         }
         return $returnValue;
@@ -276,7 +276,7 @@ class MonProjet
      */
     private function getInfosContactChef(object $unChef): string
     {
-        $returnValue = Helpers::formatPrenomNom($unChef->adherent->prenom . " " . $unChef->adherent->nom) . "<br />";
+        $returnValue = Helpers::formatPrenomNom($unChef->adherent->prenom . " " . $unChef->adherent->nom) . "<br>";
 
         $contact = "";
         if ($unChef->adherent->email !== "") {
@@ -291,7 +291,7 @@ class MonProjet
                 $contact .= $this->generateSpanInfosContactChef($unNumero, "tel");
             }
         }
-        $returnValue .= $contact . "<br />";
+        $returnValue .= $contact . "<br>";
 
         return $returnValue;
     }
