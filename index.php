@@ -22,7 +22,7 @@ include __DIR__ . "/Helpers.php";
 include __DIR__ . "/MonProjet.php";
 
 // Paramètres par défaut des filtres
-$filtrerTypeCamps = ["FARFADET", "8-11", "11-14", "14-17"];
+$filtrerTypeCamps = ["FARFADET", "8-11", "11-14", "14-17", "CAMP-ACCOMPAGNE", "AUTRE"];
 $filtrerCampsFinis = true;
 
 // Récupérer les valeurs passées en paramètres
