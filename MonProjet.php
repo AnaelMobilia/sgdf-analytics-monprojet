@@ -274,15 +274,15 @@ class MonProjet
      * @param object $unChef
      * @return string
      */
-    private function getInfosContactChef(object $unChef): string
+    public function getInfosContactChef(object $unChef): string
     {
         $returnValue = Helpers::formatPrenomNom($unChef->adherent->prenom . " " . $unChef->adherent->nom) . "<br>";
 
         $contact = "";
-        if ($unChef->adherent->email !== "") {
+        if (!empty($unChef->adherent->email)) {
             $contact .= $this->generateSpanInfosContactChef($unChef->adherent->email, "email");
         }
-        if ($unChef->adherent->telephonePortable !== "") {
+        if (!empty($unChef->adherent->telephonePortable)) {
             // Gestion des téléphones multiples : "06xxxxxxxx / 07xxxxxxxx"
             foreach (explode("/", $unChef->adherent->telephonePortable) as $unNumero) {
                 if ($contact !== "") {

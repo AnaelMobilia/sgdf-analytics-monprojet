@@ -346,7 +346,7 @@ if ($objMP->getIdentite() !== "") {
                                         <?php endforeach; ?>
                                     </td>
                                     <td data-order="<?= $unCamp->dateDebut ?>"><?= Helpers::dateFormatDmy($unCamp->dateDebut) ?> au <?= Helpers::dateFormatDmy($unCamp->dateFin) ?></td>
-                                    <td><?=  Helpers::formatPrenomNom($unAdherentStaff->adherent->prenom . " " . $unAdherentStaff->adherent->nom) ?></td>
+                                    <td><?= $objMP->getInfosContactChef($unAdherentStaff) ?></td>
                                     <td>
                                         <ul>
                                             <?php foreach ($objMP->getELearning($unAdherentStaff) as $unELearning): ?>
