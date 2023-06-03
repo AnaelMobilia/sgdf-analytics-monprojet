@@ -321,9 +321,9 @@ if ($objMP->getIdentite() !== "") {
                     <form method="POST" action="process.php" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="upload" class="form-label" title="Pilotage -> Extractions -> Individus -> Formation : e-learning... -> Exporter">❔</label>
-                            <input name="upload" id="upload" accept="application/vnd.ms-excel" type="file" class="form-control"/>
+                            <input name="upload" id="upload" accept="application/vnd.ms-excel" type="file" class="form-control">
                         </div>
-                        <input type="submit" class="btn btn-info" value="Envoyer"/>
+                        <input type="submit" class="btn btn-info" value="Envoyer">
                     </form>
                     <table class="table table-striped" id="eLearning">
                         <thead>

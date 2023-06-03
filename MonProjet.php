@@ -343,7 +343,7 @@ class MonProjet
                 $emoji = "❔";
                 break;
         }
-        return "<span class=\"pointer\" title=\"" . $value . "\" onclick=\"copyToClipboard(this);\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Copié\" data-trigger=\"manual\">" . $emoji . "</span>";
+        return "<span class=\"pointer\" title=\"" . $value . "\" onclick=\"copyToClipboard(this);\" data-toggle=\"tooltip\" data-placement=\"bottom\" data-trigger=\"manual\">" . $emoji . "</span>";
     }
 
     /**
