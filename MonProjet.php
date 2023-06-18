@@ -92,6 +92,9 @@ class MonProjet
     // Nombre de camps retournés par l'API
     const nbCamps = 50;
 
+    // Variables de cache
+    private array $cacheElearning = [];
+
     /**
      * Constructeur avec les paramètres d'affichage
      * @param array $typeCamps Type de camps à afficher (clefs de self::typeCamps)
@@ -305,14 +308,18 @@ class MonProjet
     {
         $returnValue = [];
 
-        // Liste des fichiers
-        $tabFiles = scandir(__DIR__ . "/data/");
-        foreach ($tabFiles as $unFichier) {
-            if ($unFichier == "." || $unFichier == ".." || $unFichier == ".htaccess") {
-                continue;
+        if (empty($this->cacheElearning)) {
+            // Liste des fichiers
+            $tabFiles = scandir(__DIR__ . "/data/");
+            foreach ($tabFiles as $unFichier) {
+                if ($unFichier == "." || $unFichier == ".." || $unFichier == ".htaccess") {
+                    continue;
+                }
+                $this->cacheElearning[$unFichier] = json_decode(file_get_contents(__DIR__ . "/data/" . $unFichier), true);
             }
-            $tabStagiaires = json_decode(file_get_contents(__DIR__ . "/data/" . $unFichier), true);
+        }
 
+        foreach ($this->cacheElearning as $unFichier => $tabStagiaires) {
             // Le chef est-il présent dans cette formation ?
             if (in_array($unChef->adherent->numero, array_keys($tabStagiaires))) {
                 $returnValue[] = $unFichier . " - " . $tabStagiaires[$unChef->adherent->numero];
