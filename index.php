@@ -318,7 +318,7 @@ if ($objMP->getIdentite() !== "") {
                 <div class="tab-pane fade" id="e-learning-tab-pane" role="tabpanel" aria-labelledby="e-learning-tab" tabindex="0">
                     <!-- Suivi des e-learning -->
                     <h1>Suivi des e-learning</h1>
-                    <form method="POST" action="process.php" enctype="multipart/form-data">
+                    <form method="POST" action="processElearning.php" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="upload" class="form-label" title="Pilotage -> Extractions -> Individus -> Formation : e-learning... -> Exporter">❔</label>
                             <input name="upload" id="upload" accept="application/vnd.ms-excel" type="file" class="form-control">
