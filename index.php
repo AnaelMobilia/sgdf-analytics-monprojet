@@ -366,6 +366,27 @@ if ($objMP->getIdentite() !== "") {
                 <div class="tab-pane fade" id="visite-camps-tab-pane" role="tabpanel" aria-labelledby="visite-camps-tab" tabindex="0">
                     <!-- Visite des camps -->
                     <h1>Visite des camps</h1>
+                    <!-- Modal -->
+                    <div class="modal fade" id="visiteCampsModal" tabindex="-1" aria-labelledby="visiteCampsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="visiteCampsModalLabel">Visite du camp</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" id="idCampVisite" value="">
+                                    Date de visite : <input type="date" id="dateVisiteCamp">
+                                    <br>
+                                    Infos : <input type="text" id="infoVisiteCamp">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    <button type="button" class="btn btn-primary" onclick="addVisiteCamp(document.getElementById('idCampVisite').value, '<?= str_replace("'", "\'", $objMP->getIdentite()) ?>', document.getElementById('dateVisiteCamp').value, document.getElementById('infoVisiteCamp').value,)">Enregistrer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <table class="table table-striped" id="visiteCamps">
                         <thead>
                         <tr>
@@ -389,7 +410,13 @@ if ($objMP->getIdentite() !== "") {
                                 <td data-order="<?= $unCamp->dateDebut ?>"><?= Helpers::dateFormatDmy($unCamp->dateDebut) ?> au <?= Helpers::dateFormatDmy($unCamp->dateFin) ?></td>
                                 <td><?= $objMP->getDirecteurInfos($unCamp->campAdherentStaffs) ?></td>
                                 <td><?= $objMP->getAdresse($unCamp->campLieuPrincipal) ?></td>
-                                <td id="visiteCamp<?= $unCamp->id ?>"><?= $objMP->getVisite($unCamp->id) ?> <span onclick="addVisiteCamp('<?= $unCamp->id ?>', '<?= str_replace("'", "\'", $objMP->getIdentite()) ?>', '')">➕</span></td>
+                                <td id="visiteCamp<?= $unCamp->id ?>">
+                                    <?= $objMP->getVisite($unCamp->id) ?>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#visiteCampsModal" onclick="document.getElementById('idCampVisite').value = <?= $unCamp->id ?>;document.getElementById('dateVisiteCamp').value = '';document.getElementById('infoVisiteCamp').value = '';">
+                                        ➕
+                                    </button>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>
@@ -548,23 +575,28 @@ if ($objMP->getIdentite() !== "") {
      * Enregistrer une visite de camps
      * @param id_camp
      * @param identite
-     * @param data
+     * @param date
+     * @param infos
      */
-    function addVisiteCamp(id_camp, identite, data) {
+    function addVisiteCamp(id_camp, identite, date, infos) {
         var httpRequest = new XMLHttpRequest();
 
         httpRequest.onreadystatechange = function () {
             if (httpRequest.readyState === XMLHttpRequest.DONE) {
                 if (httpRequest.status === 200) {
-                    const oldValue = document.getElementById('visiteCamp' + id_camp).innerHTML
-                    document.getElementById('visiteCamp' + id_camp).innerHTML = oldValue + '<br>' + identite + ' : ' + data;
+                    const oldValue = document.getElementById('visiteCamp' + id_camp).innerHTML;
+                    let newValue = oldValue + '<br>' + identite + ' : ' + date;
+                    if (infos !== '') {
+                        newValue += ' (' + infos + ')';
+                    }
+                    document.getElementById('visiteCamp' + id_camp).innerHTML = newValue;
                 } else {
                     console.log('something was wrong ' + httpRequest.status);
                 }
             }
         };
 
-        httpRequest.open('GET', 'processVisite.php?id_camp=' + encodeURI(id_camp) + '&identite=' + encodeURI(identite) + '&data=' + encodeURI(data), true);
+        httpRequest.open('GET', 'processVisite.php?id_camp=' + encodeURI(id_camp) + '&identite=' + encodeURI(identite) + '&date=' + encodeURI(date) + '&infos=' + encodeURI(infos), true);
         httpRequest.send();
     }
 </script>

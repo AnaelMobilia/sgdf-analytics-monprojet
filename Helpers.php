@@ -23,7 +23,7 @@ class Helpers
 
     /**
      * Formate une date en dd/mm/YYYY
-     * @param string $date
+     * @param string $date 2023-12-31
      * @return string
      */
     public static function dateFormatDmy(string $date): string

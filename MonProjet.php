@@ -385,12 +385,16 @@ class MonProjet
             // Une ligne = une visite
             foreach (file(__DIR__ . "/data/" . MonProjet::fichierVisite) as $uneLigne) {
                 $uneVisite = json_decode($uneLigne, true);
+                $data = $uneVisite["identite"] . " : " . $uneVisite["date"];
+                if (!empty($uneVisite["infos"])) {
+                    $data .= " (" . $uneVisite["infos"] . ")";
+                }
                 if (isset($this->cacheVisite[$uneVisite["id_camp"]])) {
                     // Une visite est déjà prévue
-                    $this->cacheVisite[$uneVisite["id_camp"]] .= "<br>" . $uneVisite["identite"] . " : " . $uneVisite["data"];
+                    $this->cacheVisite[$uneVisite["id_camp"]] .= "<br>" . $data;
                 } else {
                     // Pas encore de visite de prévue
-                    $this->cacheVisite[$uneVisite["id_camp"]] = $uneVisite["identite"] . " : " . $uneVisite["data"];
+                    $this->cacheVisite[$uneVisite["id_camp"]] = $data;
                 }
             }
         }
