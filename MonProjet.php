@@ -94,6 +94,8 @@ class MonProjet
 
     // Variables de cache
     private array $cacheElearning = [];
+    private array $cacheVisite = [];
+    const fichierVisite = "visites";
 
     /**
      * Constructeur avec les paramètres d'affichage
@@ -312,7 +314,7 @@ class MonProjet
             // Liste des fichiers
             $tabFiles = scandir(__DIR__ . "/data/");
             foreach ($tabFiles as $unFichier) {
-                if ($unFichier == "." || $unFichier == ".." || $unFichier == ".htaccess") {
+                if ($unFichier == "." || $unFichier == ".." || $unFichier == ".htaccess" || $unFichier == MonProjet::fichierVisite) {
                     continue;
                 }
                 $this->cacheElearning[$unFichier] = json_decode(file_get_contents(__DIR__ . "/data/" . $unFichier), true);
@@ -360,5 +362,39 @@ class MonProjet
     public function getIdentite(): string
     {
         return $this->identite;
+    }
+
+    /**
+     * Lien vers une adresse
+     * @param object $campLieuPrincipal
+     * @return string
+     */
+    public function getAdresse(object $campLieuPrincipal): string
+    {
+        return "<a href=\"https://maps.google.com/?q=" . str_replace("\"", "'", $campLieuPrincipal->adresseLigne1) . " " . str_replace("\"", "'", $campLieuPrincipal->tamRefCommune->codePostale) . " " . str_replace("\"", "'", $campLieuPrincipal->tamRefCommune->libelle) . "\" target=\"_blank\">" . $campLieuPrincipal->tamRefCommune->codePostale . " " . $campLieuPrincipal->tamRefCommune->libelle . "</a>";
+    }
+
+    /**
+     * Liste des visites pour le camp
+     * @param int $idCamp
+     * @return string
+     */
+    public function getVisite(int $idCamp): string
+    {
+        if (empty($this->cacheVisite)) {
+            // Une ligne = une visite
+            foreach (file(__DIR__ . "/data/" . MonProjet::fichierVisite) as $uneLigne) {
+                $uneVisite = json_decode($uneLigne, true);
+                if (isset($this->cacheVisite[$uneVisite["id_camp"]])) {
+                    // Une visite est déjà prévue
+                    $this->cacheVisite[$uneVisite["id_camp"]] .= "<br>" . $uneVisite["identite"] . " : " . $uneVisite["data"];
+                } else {
+                    // Pas encore de visite de prévue
+                    $this->cacheVisite[$uneVisite["id_camp"]] = $uneVisite["identite"] . " : " . $uneVisite["data"];
+                }
+            }
+        }
+
+        return $this->cacheVisite[$idCamp] ?? "";
     }
 }

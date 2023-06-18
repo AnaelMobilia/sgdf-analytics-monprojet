@@ -171,6 +171,9 @@ if ($objMP->getIdentite() !== "") {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="e-learning-tab" data-bs-toggle="tab" data-bs-target="#e-learning-tab-pane" type="button" role="tab" aria-controls="e-learning-tab-pane" aria-selected="false">e-learning</button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="visite-camps-tab" data-bs-toggle="tab" data-bs-target="#visite-camps-tab-pane" type="button" role="tab" aria-controls="visite-camps-tab-pane" aria-selected="false">Visite des camps</button>
+                </li>
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="liste-camps-tab-pane" role="tabpanel" aria-labelledby="liste-camps-tab" tabindex="0">
@@ -360,6 +363,38 @@ if ($objMP->getIdentite() !== "") {
                         </tbody>
                     </table>
                 </div>
+                <div class="tab-pane fade" id="visite-camps-tab-pane" role="tabpanel" aria-labelledby="visite-camps-tab" tabindex="0">
+                    <!-- Visite des camps -->
+                    <h1>Visite des camps</h1>
+                    <table class="table table-striped" id="visiteCamps">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Structure(s)</th>
+                            <th>Dates</th>
+                            <th>Directeur</th>
+                            <th>Lieux</th>
+                            <th>Visiteurs</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($listeDesCamps as $unCamp) : ?>
+                            <tr>
+                                <td><?= Helpers::getLienVersCamp($unCamp->id) ?></td>
+                                <td>
+                                    <?php foreach ($unCamp->campStructures as $uneStructure): ?>
+                                        <span class="pastilles" style="background-color:<?= Helpers::getColor($unCamp->typeCamp->libelle) ?>" title="<?= $unCamp->typeCamp->libelle ?>"></span>&nbsp;<?= ($uneStructure->structure->libelle) ?? "Structure hors périmètre" ?><br>
+                                    <?php endforeach; ?>
+                                </td>
+                                <td data-order="<?= $unCamp->dateDebut ?>"><?= Helpers::dateFormatDmy($unCamp->dateDebut) ?> au <?= Helpers::dateFormatDmy($unCamp->dateFin) ?></td>
+                                <td><?= $objMP->getDirecteurInfos($unCamp->campAdherentStaffs) ?></td>
+                                <td><?= $objMP->getAdresse($unCamp->campLieuPrincipal) ?></td>
+                                <td id="visiteCamp<?= $unCamp->id ?>"><?= $objMP->getVisite($unCamp->id) ?> <span onclick="addVisiteCamp('<?= $unCamp->id ?>', '<?= str_replace("'", "\'", $objMP->getIdentite()) ?>', '')">➕</span></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -429,6 +464,16 @@ if ($objMP->getIdentite() !== "") {
             // Tri sur la structure parent et la tranche d'âge
             order: [[1, 'asc'], [3, 'asc']],
         });
+        $('#visiteCamps').DataTable({
+            // En français
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json',
+            },
+            // Pas de pagination
+            paging: false,
+            // Tri sur la date et le nom
+            order: [[2, 'asc'], [1, 'asc']],
+        });
     });
 
     // Lancer Fullcalendar
@@ -497,6 +542,30 @@ if ($objMP->getIdentite() !== "") {
         setTimeout(() => {
             tooltip.hide();
         }, 1000);
+    }
+
+    /**
+     * Enregistrer une visite de camps
+     * @param id_camp
+     * @param identite
+     * @param data
+     */
+    function addVisiteCamp(id_camp, identite, data) {
+        var httpRequest = new XMLHttpRequest();
+
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    const oldValue = document.getElementById('visiteCamp' + id_camp).innerHTML
+                    document.getElementById('visiteCamp' + id_camp).innerHTML = oldValue + '<br>' + identite + ' : ' + data;
+                } else {
+                    console.log('something was wrong ' + httpRequest.status);
+                }
+            }
+        };
+
+        httpRequest.open('GET', 'processVisite.php?id_camp=' + encodeURI(id_camp) + '&identite=' + encodeURI(identite) + '&data=' + encodeURI(data), true);
+        httpRequest.send();
     }
 </script>
 </body>
