@@ -25,43 +25,53 @@ class MonProjet
      */
     const typeCampsCouleur = "couleur";
     const typeCampsCodeApi = "code";
+    const typeCampsOrdreAge = "triAge";
     // Types de camps
     const typeCamps = [
         "Farfadets" => [
             self::typeCampsCouleur => "#65bc99",
             self::typeCampsCodeApi => "FARFADET",
+            self::typeCampsOrdreAge => "1",
         ],
         "Louveteaux-jeannettes" => [
             self::typeCampsCouleur => "#ff8300",
             self::typeCampsCodeApi => "8-11",
+            self::typeCampsOrdreAge => "2",
         ],
         "Scouts-guides" => [
             self::typeCampsCouleur => "#0077b3",
             self::typeCampsCodeApi => "11-14",
+            self::typeCampsOrdreAge => "3",
         ],
         "Pionniers-Caravelles" => [
             self::typeCampsCouleur => "#d03f15",
             self::typeCampsCodeApi => "14-17",
+            self::typeCampsOrdreAge => "4",
         ],
         "Compagnons T1 et T3" => [
             self::typeCampsCouleur => "#007254",
             self::typeCampsCodeApi => "COMPAGNONS-T1",
+            self::typeCampsOrdreAge => "5",
         ],
         "Compagnons T2" => [
             self::typeCampsCouleur => "#007254",
             self::typeCampsCodeApi => "COMPAGNONS-T2",
+            self::typeCampsOrdreAge => "6",
         ],
         "Audace" => [
             self::typeCampsCouleur => "#6e74aa",
             self::typeCampsCodeApi => "AUDACE",
+            self::typeCampsOrdreAge => "7",
         ],
         "Camp accompagné" => [
             self::typeCampsCouleur => "#003a5d",
             self::typeCampsCodeApi => "CAMP-ACCOMPAGNE",
+            self::typeCampsOrdreAge => "8",
         ],
         "Camp autre" => [
             self::typeCampsCouleur => "#003a5d",
             self::typeCampsCodeApi => "AUTRE",
+            self::typeCampsOrdreAge => "9",
         ],
     ];
 

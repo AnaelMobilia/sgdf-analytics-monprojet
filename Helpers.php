@@ -53,7 +53,11 @@ class Helpers
      */
     public static function getCategorieForDatatables(string $category): string
     {
-        return array_search($category, MonProjet::typeCamps);
+        $returnValue = "";
+        if (isset(MonProjet::typeCamps[$category])) {
+            $returnValue = MonProjet::typeCamps[$category][MonProjet::typeCampsOrdreAge];
+        }
+        return $returnValue;
     }
 
     /**
