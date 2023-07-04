@@ -353,7 +353,7 @@ if ($objMP->getIdentite() !== "") {
                                     <td>
                                         <ul>
                                             <?php foreach ($objMP->getELearning($unAdherentStaff) as $unELearning): ?>
-                                                <li><?= $unELearning ?></li>
+                                                <li><span style="display: none"><?= preg_replace("#.*([0-9]{2})/([0-9]{2})/([0-9]{4})#", "$3/$2/$1", $unELearning) ?></span><?= $unELearning ?></li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </td>
