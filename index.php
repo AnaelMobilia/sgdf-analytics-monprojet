@@ -58,7 +58,7 @@ if ($objMP->getIdentite() !== "") {
     <link rel="icon" type="image/png" href="https://monprojet.sgdf.fr/favicon.ico" sizes="16x16">
 
     <!-- Bootstrap core CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         /* Sticky navbar */
         /* Show it is fixed to the top */
@@ -82,7 +82,7 @@ if ($objMP->getIdentite() !== "") {
         }
     </style>
     <!-- Datatables -->
-    <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.10/css/jquery.dataTables.min.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100">
 <header>
@@ -428,23 +428,23 @@ if ($objMP->getIdentite() !== "") {
 </main>
 
 <!-- jQuery for Datatables -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <!-- Tooltip for Fullcalendar (à fournir avant bootstrap) -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <!-- Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <!-- Datatables -->
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.10/js/jquery.dataTables.min.js"></script>
 <!-- Fullcalendar -->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.6/index.global.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.6/locales/fr.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/locales/fr.js"></script>
 <script>
     // Lancer Datatables
     $(document).ready(function () {
         $('#listeCamps').DataTable({
             // En français
             language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json',
+                url: 'https://cdn.datatables.net/plug-ins/1.13.10/i18n/fr-FR.json',
             },
             // Pas de pagination
             paging: false,
@@ -454,7 +454,7 @@ if ($objMP->getIdentite() !== "") {
         $('#polePeda').DataTable({
             // En français
             language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json',
+                url: 'https://cdn.datatables.net/plug-ins/1.13.10/i18n/fr-FR.json',
             },
             // Pas de pagination
             paging: false,
@@ -464,7 +464,7 @@ if ($objMP->getIdentite() !== "") {
         $('#stagesPratiques').DataTable({
             // En français
             language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json',
+                url: 'https://cdn.datatables.net/plug-ins/1.13.10/i18n/fr-FR.json',
             },
             // Pas de pagination
             paging: false,
@@ -474,7 +474,7 @@ if ($objMP->getIdentite() !== "") {
         $('#tam').DataTable({
             // En français
             language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json',
+                url: 'https://cdn.datatables.net/plug-ins/1.13.10/i18n/fr-FR.json',
             },
             // Pas de pagination
             paging: false,
@@ -484,7 +484,7 @@ if ($objMP->getIdentite() !== "") {
         $('#eLearning').DataTable({
             // En français
             language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json',
+                url: 'https://cdn.datatables.net/plug-ins/1.13.10/i18n/fr-FR.json',
             },
             // Pas de pagination
             paging: false,
@@ -494,7 +494,7 @@ if ($objMP->getIdentite() !== "") {
         $('#visiteCamps').DataTable({
             // En français
             language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json',
+                url: 'https://cdn.datatables.net/plug-ins/1.13.10/i18n/fr-FR.json',
             },
             // Pas de pagination
             paging: false,
