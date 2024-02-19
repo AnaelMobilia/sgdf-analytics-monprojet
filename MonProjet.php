@@ -168,20 +168,28 @@ class MonProjet
     {
         $returnValue = [];
 
+        // Calcul des bornes de l'exercice en cours
+        $anneeDebut = date("Y");
+        if (date("m") <= "8") {
+            $anneeDebut = date("Y") - 1;
+        }
+
         // Date de début du séjour
-        $dateDeb = "2022-09-01";
+        $dateDeb = $anneeDebut . "-09-01";
         if ($this->filtrerCampsFinis) {
             // Ne pas prendre les camps terminés
             $dateDeb = date("Y-m-d");
         }
         $dateDeb .= "T00:00:00.000Z";
 
+        // Date de fin
+        $dateFin = ($anneeDebut + 1) . "-09-15T00:00:00.000Z";
+
         // Type de camps
         $typeCamps = implode(",", $this->filtrerTypeCamps);
 
         // Construction de l'URL
-        $url = self::base_url . "camps/multi-criteres?dateDebut=" . $dateDeb . "&dateFin=2023-09-15T00:00:00.000Z&statutsCamp=1&chercherDossiersParticipants=0&codeStructure=" . $this->codeStructure . "&chercherStructuresDependates=1&codesTypesCamp=" . $typeCamps . "&idsTamRefExercices=18&selectedPage=" . $selectedPage;
-
+        $url = self::base_url . "camps/multi-criteres?dateDebut=" . $dateDeb . "&dateFin=" . $dateFin . "&statutsCamp=1&chercherDossiersParticipants=0&codeStructure=" . $this->codeStructure . "&chercherStructuresDependates=1&codesTypesCamp=" . $typeCamps . "&idsTamRefExercices=18&selectedPage=" . $selectedPage;
         $ch = curl_init($url);
         curl_setopt_array($ch, array(
             CURLOPT_RETURNTRANSFER => true,
