@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2023-2023 Anael MOBILIA
+ * Copyright 2023-2024 Anael MOBILIA
  *
  * This file is part of analytics-monprojet.
  *
