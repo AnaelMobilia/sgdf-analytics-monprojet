@@ -189,7 +189,7 @@ class MonProjet
         $typeCamps = implode(",", $this->filtrerTypeCamps);
 
         // Construction de l'URL
-        $url = self::base_url . "camps/multi-criteres?dateDebut=" . $dateDeb . "&dateFin=" . $dateFin . "&statutsCamp=1&chercherDossiersParticipants=0&codeStructure=" . $this->codeStructure . "&chercherStructuresDependates=1&codesTypesCamp=" . $typeCamps . "&idsTamRefExercices=18&selectedPage=" . $selectedPage;
+        $url = self::base_url . "camps/multi-criteres?dateDebut=" . $dateDeb . "&dateFin=" . $dateFin . "&statutsCamp=1&chercherDossiersParticipants=0&codeStructure=" . $this->codeStructure . "&chercherStructuresDependates=1&codesTypesCamp=" . $typeCamps . "&idsTamRefExercices=19&selectedPage=" . $selectedPage;
         $ch = curl_init($url);
         curl_setopt_array($ch, array(
             CURLOPT_RETURNTRANSFER => true,
